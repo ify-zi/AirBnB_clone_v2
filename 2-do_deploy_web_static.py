@@ -10,6 +10,7 @@ from fabric.api import *
 
 env.host = ['52.87.219.34', '100.25.132.43']
 
+
 def do_deploy(archive_path):
     """
         deploy code to sever
@@ -24,7 +25,7 @@ def do_deploy(archive_path):
     try:
         put("archive_path /tmp/{}".format(filename))
         run("sudo mkdir -p /data/web_static/releases/{}".format(foldername))
-        run("sudo tar -xvf /tmp/{} -C /data/web_static/releases/{}".format(filename, foldername))
+        run("sudo tar -xvf /tmp/{} -C {}".format(filename, folderpath))
         run("sudo rm -rf /tmp/{}".format(filename))
         run("sudo rm -rf /data/web_static/current")
         run("sudo ln -s {} /data/web_static/current".format(folderpath))
