@@ -19,10 +19,9 @@ def do_pack():
                                                     current.minute,
                                                     current.second)
     try:
-        local("mkdir -p /versions/")
+        local("mkdir -p /versions")
         print("Packing web_static to {}".format(filename))
         local("tar -cvzf /versions/{} ./web_static".format(filename))
-        file_size = os.stat(filename).st_size
-        print("web_static packed: {} -> {} Bytes".format(filename, file_size))
+        return "/versions/{}".format(filename)
     except Exception:
         return "None"
