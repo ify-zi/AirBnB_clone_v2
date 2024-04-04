@@ -5,11 +5,12 @@
 
 
 import os
-from fabric.api import *
+from fabric.api import env, run, put
 
 
 env.hosts = ['52.87.219.34', '100.25.132.43']
-
+env.key_filename = "~/.ssh/school"
+env.user = 'ubuntu'
 
 def do_deploy(archive_path):
     """
@@ -18,19 +19,19 @@ def do_deploy(archive_path):
 
     if not os.path.exists(archive_path):
         return False
-    filename = os.path.basename(archive_path)
-    foldername = filename.replace(".tgz", "")
-    folderpath = "/data/web_static/releases/{}/".format(foldername)
+    file_name = archive_path.split("/")[-1].split(".")[0]
     try:
-        put(archive_path, "/tmp/{}".format(filename))
-        run("sudo mkdir -p {}".format(folderpath))
-        run("sudo tar -xzf /tmp/{} -C {}".format(filename, folderpath))
-        run("sudo rm -rf /tmp/{}".format(filename))
-        run("sudo mv {}web_static/* {}".format(folderpath, folderpath))
-        run("sudo rm -rf {}web_static".format(folderpath))
-        run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s {} /data/web_static/current".format(folderpath))
-        print("Deployed")
+        put(archive_path, "/tmp/")
+        run('mkdir -p /data/web_static/releases/{}/'.format(file_name))
+        run('tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}/'
+            .format(file_name, file_name))
+        run('rm /tmp/{}.tgz'.format(file_name))
+        run('mv /data/web_static/releases/{}/web_static/* \
+            /data/web_static/releases/{}'.format(file_name, file_name))
+        run('rm -rf /data/web_static/releases/{}/web_static'.format(file_name))
+        run('rm -rf /data/web_static/current')
+        run('ln -s /data/web_static/releases/{}/ \
+            /data/web_static/current'.format(file_name))
         return True
     except Exception:
         return False
