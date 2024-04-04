@@ -5,23 +5,24 @@
 
 
 import os
-import datetime
+from datetime import datetime
 from fabric.api import *
 
 
 def do_pack():
     """function to archive a file recursively"""
-    current = datetime.datetime.now()
+    current = datetime.now()
     filename = "web_static_{}{}{}{}{}{}.tgz".format(current.year,
                                                     current.month,
                                                     current.day,
                                                     current.hour,
                                                     current.minute,
                                                     current.second)
-    local("mkdir -p /versions/")
     try:
+        local("mkdir -p /versions/")
         print("Packing web_static to {}".format(filename))
         local("tar -cvzf /versions/{} ./web_static".format(filename))
-        return ("/versions/{}".format(filename))
+        file_size = os.stat(filename).st_size
+        print("web_static packed: {} -> {} Bytes".format(filename, file_size))
     except Exception:
         return "None"
