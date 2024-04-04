@@ -12,6 +12,7 @@ env.hosts = ['52.87.219.34', '100.25.132.43']
 env.key_filename = "~/.ssh/school"
 env.user = 'ubuntu'
 
+
 def do_deploy(archive_path):
     """
         deploy code to sever
