@@ -58,6 +58,7 @@ def do_deploy(archive_path):
         run('rm -rf /data/web_static/current')
         run('ln -s /data/web_static/releases/{}/ \
             /data/web_static/current'.format(file_name))
+        print("New version deployed")
         return True
     except Exception:
         return False
@@ -69,4 +70,3 @@ def deploy():
     if file_path is None:
         return False
     return do_deploy(file_path)
-    return status
