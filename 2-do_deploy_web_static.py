@@ -26,8 +26,8 @@ def do_deploy(archive_path):
         run("sudo mkdir -p /data/web_static/releases/{}".format(foldername))
         run("sudo tar -xvf /tmp/{} -C {}".format(filename, folderpath))
         run("sudo rm -rf /tmp/{}".format(filename))
-        run("mv {}web_static/* {}".format(folder_path, folder_path))
-        run("rm -rf {}web_static".format(folder_path))
+        run("mv {}web_static/* {}".format(folderpath, folderpath))
+        run("rm -rf {}web_static".format(folderpath))
         run("sudo rm -rf /data/web_static/current")
         run("sudo ln -s {} /data/web_static/current".format(folderpath))
         return True
