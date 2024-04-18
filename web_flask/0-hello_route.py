@@ -13,7 +13,7 @@ def welcome():
     """
         prints the home page
     """
-    return "Hello HBNB"
+    return "Hello HBNB!"
 
 
 if __name__ == '__main__':
