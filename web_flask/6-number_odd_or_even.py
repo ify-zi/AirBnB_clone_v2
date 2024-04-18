@@ -59,5 +59,14 @@ def temp(n):
     return render_template('5-number.html', **val)
 
 
+@app.route('/number_odd_or_even/<int:n>')
+def modu(n):
+    """
+        function renders if a value is odd or even
+    """
+    val = {'n': n}
+    return render_template('6-number_odd_or_even.html', **val)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
