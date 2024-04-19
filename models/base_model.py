@@ -2,10 +2,15 @@
 """This module defines a base class for all models in our hbnb clone"""
 import uuid
 from datetime import datetime
-
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, DATETIME
 
 class BaseModel:
     """A base class for all hbnb models"""
+    id = Column(String(60), nullable=False, primary_key=True, unique=True)
+    created_at = Column(DATETIME, nullable=False, default=datetime.utcnow())
+    updated_at = Column(DATETIME, nullable=False, default=datetime.utcnow())
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -13,12 +18,14 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            #storage.new(self)
         else:
             kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
             kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
+            for key, value in kwargs.items:
+                self.key = value
             del kwargs['__class__']
             self.__dict__.update(kwargs)
 
@@ -31,6 +38,7 @@ class BaseModel:
         """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.now()
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
@@ -41,4 +49,12 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
+        for key, value in dictionary.items:
+            if key == '_sa_instance_state':
+                del dictionary[_sa_instance_state]
         return dictionary
+    
+    def delete(self):
+        """A public delete attribute that del object instance"""
+        from models import storage
+        storage.delete(self)
