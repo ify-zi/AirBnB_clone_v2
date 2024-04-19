@@ -18,6 +18,10 @@ class FileStorage:
                 if type(value) is cls:
                     filtered_dict[key] = value
             return filtered_dict
+    
+    def close(self):
+        """method for deserializing JSON object"""
+        self.reload()
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -64,4 +68,3 @@ class FileStorage:
             obj_key = obj.to_dict()['__class__'] + '.' + obj.id
             if obj_key in self.__objects.keys():
                 del self.__objects[obj_key]
-
