@@ -18,7 +18,7 @@ class FileStorage:
                 if type(value) is cls:
                     filtered_dict[key] = value
             return filtered_dict
-    
+
     def close(self):
         """method for deserializing JSON object"""
         self.reload()
@@ -56,7 +56,7 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
