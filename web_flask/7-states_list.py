@@ -70,7 +70,7 @@ def modu(n):
 
 
 @app.teardown_appcontext
-def end_session(exception=None):
+def end_session(exc):
     """
         Ends each session
     """
