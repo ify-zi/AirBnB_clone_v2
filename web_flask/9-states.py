@@ -30,10 +30,10 @@ def states(id=None):
         states = all_states
         for state in states:
             state.cities.sort(key=lambda x: x.name)
-            states.sort(key=lambda x: x.name)
-            case = 1
+        states.sort(key=lambda x: x.name)
+        case = 1
     ctxt = {
-            'states': states
+            'states': states,
             'state': state,
             'case': case
             }
