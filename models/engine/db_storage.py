@@ -1,9 +1,5 @@
 #!/usr/bin/python3
-"""
-    new database engine
-"""
-
-
+"""This module defines a class to manage database storage for hbnb clone"""
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -13,18 +9,18 @@ from models.base_model import BaseModel, Base
 from models.state import State
 from models.city import City
 from models.user import User
-from models.place import Place
+from models.place import Place, place_amenity
 from models.amenity import Amenity
 from models.review import Review
 
 
 class DBStorage:
-    """Class of DB with changes previous engine"""
+    """This class manages storage of hbnb models in a SQL database"""
     __engine = None
     __session = None
 
     def __init__(self):
-        """constructor method"""
+        """Initializes the SQL database storage"""
         user = os.getenv('HBNB_MYSQL_USER')
         pword = os.getenv('HBNB_MYSQL_PWD')
         host = os.getenv('HBNB_MYSQL_HOST')
@@ -34,8 +30,9 @@ class DBStorage:
             user, pword, host, db_name
         )
         self.__engine = create_engine(
-                DATABASE_URL,
-                pool_pre_ping=True)
+            DATABASE_URL,
+            pool_pre_ping=True
+        )
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
 
